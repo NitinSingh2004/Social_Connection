@@ -1,0 +1,110 @@
+/* ── SCHEDULER CSS ── */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+    padding: 0 24px 40px;
+    max-width: 100%;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+.glass-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Flexbox utilities */
+.flex-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.flex-header.alignment-start { align-items: flex-start; }
+
+/* Typography styles */
+h2, h3 { font-size: 1.25rem; font-weight: 700; color: #111827; margin: 0; }
+h4 { font-size: 0.95rem; font-weight: 600; color: #111827; margin: 0; }
+h5 { font-size: 0.9rem; font-weight: 600; color: #111827; margin: 0; }
+
+.subtext { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+.profile-name { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+.profile-status { font-size: 0.8rem; color: #9ca3af; margin: 0; }
+
+/* Left card details */
+.account-list { display: flex; flex-direction: column; gap: 8px; }
+.account-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px; border-radius: 12px; background: transparent; border: 1px solid transparent;
+    cursor: pointer; transition: all 0.2s ease;
+}
+.account-item:hover { background: #F3F4F6; }
+.account-item.active { background: #F5F3FF; border-color: var(--accent-lt); box-shadow: 0 2px 4px rgba(139,92,246,0.1); }
+
+.account-profile { display: flex; align-items: center; gap: 12px; }
+
+.icon-avatar {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.2rem;
+}
+
+/* Platform Colors */
+.bg-facebook { background-color: #1877f2; }
+.bg-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+.bg-twitter { background-color: #000000; }
+.bg-linkedin { background-color: #0A66C2; }
+
+/* Buttons & Badges */
+.btn-manage { font-size: 0.8rem; color: var(--text-muted); padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: transparent; cursor: pointer; }
+.btn-manage:hover { color: var(--text-main); background: #f9fafb; }
+.btn-connect { background: transparent; border: 1px solid var(--border); color: var(--text-main); font-size: 0.85rem; padding: 6px 14px; border-radius: 8px; cursor: pointer; }
+.btn-connect:hover { background: #F3F4F6; }
+.btn-calendar-view { font-size: 0.875rem; background-color: var(--accent-lt); color: #fff; padding: 8px 16px; border-radius: var(--radius-sm); border: none; cursor: pointer; transition: 0.2s; }
+.btn-calendar-view:hover { background-color: var(--accent); }
+
+.badge-active { background: var(--green-dim); color: var(--green); font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+.badge-scheduled { background: #DBEAFE; color: #3B82F6; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+
+/* Filter systems */
+.filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0 24px 0; }
+.search-input { background: #fff; border: 1px solid var(--border); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; flex-grow: 1; min-width: 200px; box-shadow: var(--shadow-sm); }
+.select-filter { background: #fff; border: 1px solid var(--border); color: var(--text-muted); padding: 10px 12px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; outline: none; box-shadow: var(--shadow-sm); }
+
+.toggle-view-container { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-left: auto; background: #fff; box-shadow: var(--shadow-sm); }
+.view-toggle-btn { background: transparent; border: none; color: var(--text-muted); padding: 10px 16px; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+.view-toggle-btn.active { background: #F3F4F6; color: var(--text-main); font-weight: 600; }
+
+/* Table and feed configuration */
+.section-title { font-size: 0.9rem; color: var(--text-main); font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.icon-purple { color: var(--accent-lt); }
+
+.table-header-grid {
+    display: grid; grid-template-columns: 70px 1fr 150px 120px;
+    padding: 12px 16px; text-transform: uppercase; font-size: 0.75rem; color: var(--text-muted);
+    font-weight: 600; letter-spacing: 0.05em; border-bottom: 2px solid #F3F4F6;
+}
+
+.posts-feed { display: flex; flex-direction: column; }
+
+.post-row {
+    display: grid; grid-template-columns: 70px 1fr 150px 120px; align-items: center;
+    padding: 16px; border-bottom: 1px solid var(--border); transition: background 0.2s;
+}
+.post-row:hover { background: #F9FAFB; }
+
+.post-media-preview { position: relative; width: 50px; height: 50px; border-radius: 8px; overflow: hidden; background: #E5E7EB; border: 1px solid var(--border); }
+.post-media-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.platform-overlay-badge { position: absolute; bottom: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: white; }
+
+.post-tags { font-size: 0.8rem; color: var(--accent-lt); margin-top: 4px; font-weight: 500; }
+.post-datetime { font-size: 0.9rem; color: var(--text-main); font-weight: 600; margin-bottom: 4px; }
+.time-muted { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+
+.post-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+.btn-more { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; }
+.btn-more:hover { color: var(--text-main); }
+.text-right { text-align: right; }
+.empty-state { padding: 48px 0; text-align: center; color: var(--text-muted); }
+.empty-state i { font-size: 2rem; display: block; margin-bottom: 8px; color: #D1D5DB; }

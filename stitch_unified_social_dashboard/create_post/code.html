@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "outline-variant": "#494454",
+                        "inverse-primary": "#6d3bd7",
+                        "inverse-on-surface": "#283044",
+                        "surface-container-low": "#131b2e",
+                        "background": "#0b1326",
+                        "tertiary-fixed": "#d8e2ff",
+                        "on-tertiary-container": "#00285d",
+                        "on-primary": "#3c0091",
+                        "surface-bright": "#31394d",
+                        "secondary": "#4edea3",
+                        "tertiary": "#adc6ff",
+                        "on-background": "#dae2fd",
+                        "on-primary-fixed": "#23005c",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-secondary-fixed": "#002113",
+                        "primary-fixed-dim": "#d0bcff",
+                        "on-tertiary": "#002e6a",
+                        "on-error": "#690005",
+                        "surface": "#0b1326",
+                        "secondary-container": "#00a572",
+                        "primary-fixed": "#e9ddff",
+                        "surface-variant": "#2d3449",
+                        "secondary-fixed-dim": "#4edea3",
+                        "surface-container-lowest": "#060e20",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "primary": "#d0bcff",
+                        "on-surface-variant": "#cbc3d7",
+                        "on-primary-fixed-variant": "#5516be",
+                        "outline": "#958ea0",
+                        "on-secondary": "#003824",
+                        "on-primary-container": "#340080",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "on-tertiary-fixed": "#001a42",
+                        "tertiary-container": "#4d8eff",
+                        "surface-container": "#171f33",
+                        "surface-tint": "#d0bcff",
+                        "primary-container": "#a078ff",
+                        "on-surface": "#dae2fd",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-secondary-container": "#00311f",
+                        "surface-container-high": "#222a3d",
+                        "surface-dim": "#0b1326",
+                        "inverse-surface": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "xs": "8px",
+                        "gutter": "20px",
+                        "base": "4px",
+                        "sm": "16px",
+                        "margin-mobile": "16px",
+                        "md": "24px",
+                        "xl": "48px",
+                        "lg": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #30363D;
+        }
+        .inset-field {
+            background: #0b1326;
+            border: 1px solid #30363D;
+        }
+        .inset-field:focus-within {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden">
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest border-r border-surface-variant flex flex-col py-md z-50">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SocialPulse</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-70">Management Engine</p>
+</div>
+<nav class="flex-grow flex flex-col gap-1">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-body-md">Connections</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-primary bg-primary-container/10 border-l-4 border-primary active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-body-md">Create Post</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-body-md">Scheduler</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 left-[260px] h-16 bg-surface/80 backdrop-blur-md border-b border-surface-variant flex justify-between items-center px-lg z-40">
+<div class="flex items-center gap-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-1.5 text-body-sm focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search strategy..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2jQaLmdNYDPOrIIJG47FYoQweeOznMOhBINsLadGn_BefqPSktvNFDrekK66Q4d8pDk8bTPcNxScgqq5bIXzIXZTd8MXkvbvgiNKSwp56Df0WEduu9zz0ZplA6T4ajMy6hmTzehN5F4JBrewS2asJVgZMdEYxLT24RMCvBL-X-e17Y_mhy0cyedkh9z-iWvRVZBNn4tkkLkh1I8Mz-cCw2WwJWgd_sw0Yd79v1GtxPqBXp30P4qzaRsSimgAa9btDOZITQDKeVhg"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="pl-[260px] pt-16 min-h-screen">
+<div class="p-lg max-w-7xl mx-auto">
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Create New Post</h2>
+<p class="text-on-surface-variant font-body-md">Draft and optimize your content across all social channels.</p>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Composer Column (Left) -->
+<div class="col-span-12 lg:col-span-7 space-y-gutter">
+<!-- Platform Selector Card -->
+<div class="glass-panel p-md rounded-xl">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-3">SELECT PLATFORMS</label>
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container text-on-primary-container border border-primary transition-all">
+<span class="material-symbols-outlined text-[18px]">public</span>
+<span class="font-body-sm font-medium">LinkedIn</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high text-on-surface-variant border border-surface-variant hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span class="font-body-sm font-medium">X (Twitter)</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container text-on-primary-container border border-primary transition-all">
+<span class="material-symbols-outlined text-[18px]">camera</span>
+<span class="font-body-sm font-medium">Instagram</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high text-on-surface-variant border border-surface-variant hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-[18px]">face_nod</span>
+<span class="font-body-sm font-medium">Facebook</span>
+</button>
+</div>
+</div>
+<!-- Post Editor Card -->
+<div class="glass-panel rounded-xl overflow-hidden">
+<div class="bg-surface-container-low px-md py-3 border-b border-surface-variant flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Content Editor</span>
+<div class="flex gap-2">
+<button class="p-1.5 hover:bg-surface-container-high rounded text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">mood</span></button>
+<button class="p-1.5 hover:bg-surface-container-high rounded text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">alternate_email</span></button>
+<button class="p-1.5 hover:bg-surface-container-high rounded text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">tag</span></button>
+</div>
+</div>
+<div class="p-md">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-md text-on-surface resize-none p-0 placeholder-on-surface-variant/40" id="caption-input" placeholder="What's the story today? Compose your caption here..." rows="8"></textarea>
+<div class="mt-md flex justify-between items-end">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-label-sm font-label-sm text-secondary">AI Content Analysis: High Engagement Predicted</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant" id="char-count">0 / 2200</span>
+</div>
+</div>
+</div>
+<!-- Media Upload Card -->
+<div class="glass-panel p-md rounded-xl">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-4">MEDIA ASSETS</label>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-sm">
+<!-- Upload Trigger -->
+<div class="aspect-square rounded-lg border-2 border-dashed border-surface-variant flex flex-col items-center justify-center hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-2">cloud_upload</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant group-hover:text-on-surface">Upload</span>
+</div>
+<!-- Mock Uploaded Item -->
+<div class="aspect-square rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Abstract 3D digital art composition featuring flowing fluid shapes in purple and teal gradients, professional studio lighting, high resolution rendering with a futuristic corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClzuIhlxc4GPbJElrPIyX9BAOawEJDfgfO_5LpNi89Q0mUbbBDDQ4ctZ2thBSd4B8tIygWcWK_ntyk7wDwPgLkLM8NYyHiZRUoejrqw93sxQ7m0kdxMs_2dy3EUeQYMmYg4FXJHCeXPRWST94ucU3Dkku-9fd6CxRSVFQ2wDod-Q-43ybdu1IOkzxo-x3i810CofUbKgnyvPsrNfUxbtSyDzedm8gE21BNW5bin7ZCee1kcpLaaDWsAWYvJyuFlPYyrMvBHTjUDgE"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-1.5 bg-error text-on-error rounded-full"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+<button class="p-1.5 bg-white text-black rounded-full"><span class="material-symbols-outlined text-[16px]">edit</span></button>
+</div>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Close-up photograph of modern high-end computer hardware with glowing neon purple LED lights, shallow depth of field, sharp focus on intricate circuit textures, tech industry cinematic style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTooviBwjaJEpR6O2xynuq3_V4WNxwwLMIoSbJouFPm-wOnEWr5UHA7eaGYsvrgyJs3gdQXqiln0uyDZFt-BiOKVHyaRHANs3XHCaar7sFTZpk-wly2gbGBT7g1g2evshtLjLi6buKwQh06ysjl4uxRlImpV6ve9RJXY7lHPYi1rs0XagIvTjlKGfUxwKWAhyyxW-FdazG-gUO3NuN2tnTMXBenFN9SmlvggdnTm7tOwZJtpDLfKmlynJIlsT8Ylh5WW4czw1NrcA"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-1.5 bg-error text-on-error rounded-full"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+<button class="p-1.5 bg-white text-black rounded-full"><span class="material-symbols-outlined text-[16px]">edit</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Preview Column (Right) -->
+<div class="col-span-12 lg:col-span-5 flex flex-col gap-gutter">
+<div class="glass-panel rounded-xl flex-grow flex flex-col">
+<div class="bg-surface-container-low px-md py-3 border-b border-surface-variant flex justify-between items-center rounded-t-xl">
+<span class="text-label-md font-label-md text-on-surface-variant">LIVE PREVIEW</span>
+<div class="flex bg-surface-container rounded-lg p-1">
+<button class="px-3 py-1 rounded-md bg-primary-container text-on-primary-container text-label-sm font-label-sm">Desktop</button>
+<button class="px-3 py-1 rounded-md text-on-surface-variant text-label-sm font-label-sm hover:text-on-surface transition-colors">Mobile</button>
+</div>
+</div>
+<div class="p-md flex-grow bg-[#05080f] flex items-center justify-center min-h-[500px]">
+<!-- Mock Instagram Preview -->
+<div class="w-full max-w-[400px] bg-white text-black rounded-xl overflow-hidden shadow-2xl scale-[0.9] origin-center">
+<div class="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-purple-600 p-[2px]">
+<div class="w-full h-full bg-white rounded-full p-[2px]">
+<img class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAezXJWTCIIZ4GAVemMcQ6CZHI6JtTdKs4aYTWO-_wOqVXqvgHxCDUIgvwXlsPo-fJiHOYt9My06hdJ9t5l1vwsF6Rjiqh0skDMXYufGl7DqbJ6-I3iS1fThaDgka6izrCn5wKBI5H_cjScACWZO95piZ9xSup0dTKf7NKhqpbNAoG-juZtNN27zNWuii_4bNsWwXB_Z8N2OyFiJ_2ebPiTX4KGeYV16J4w38wF311j6k6NTMSFj1zso2J6N9xmzqxGvVcHKj77RrI"/>
+</div>
+</div>
+<span class="font-semibold text-sm">socialpulse_app</span>
+</div>
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</div>
+<div class="aspect-square bg-gray-100">
+<img class="w-full h-full object-cover" id="preview-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwKMmMbudbH1JUWxuK9FW0MPJWUBUEtEeCtPGhqASbxfzZepmMhXuO0KHMvbKd6iIT42f29AxEQYBRVRANnah-IvwZaEDC8jZYS5riSQF0o7JTV8Q91Dg6QMo8uDQIHhEI3JZGoA2_d_V8ttmjABULz_3irDBra_Oy04zD1KI5pqRxlPIMIO08e9cBxBs8S6FfUIit27W7YJChyxPbZWNwpZBp1kj3D6gJkFFeDCmiOylapTaEv2CxifC6MNtUcs6vLsRhh4rI0NI"/>
+</div>
+<div class="p-4">
+<div class="flex gap-4 mb-3">
+<span class="material-symbols-outlined">favorite</span>
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="material-symbols-outlined">send</span>
+</div>
+<p class="text-sm">
+<span class="font-semibold mr-2">socialpulse_app</span>
+<span class="text-gray-700" id="preview-text">The future of social management is here. Dive into the data-driven creative engine. 🚀 #AI #SocialPulse</span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Card -->
+<div class="glass-panel p-md rounded-xl flex flex-col gap-3">
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 py-4 rounded-lg bg-surface-container-high border border-surface-variant text-on-surface font-body-md font-semibold hover:bg-surface-container-highest transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">schedule</span>
+                                Schedule
+                            </button>
+<button class="flex items-center justify-center gap-2 py-4 rounded-lg bg-primary text-on-primary font-body-md font-semibold shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">send</span>
+                                Post Now
+                            </button>
+</div>
+<button class="w-full py-3 text-on-surface-variant text-label-md font-label-md border border-transparent hover:border-surface-variant rounded-lg transition-all">
+                            Save as Draft
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Notification (Interactions) -->
+<div class="fixed bottom-lg right-lg translate-y-20 opacity-0 transition-all duration-500 z-[60]" id="status-toast">
+<div class="bg-primary text-on-primary px-lg py-md rounded-xl shadow-2xl flex items-center gap-3">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-body-md font-medium">Post scheduled successfully!</span>
+</div>
+</div>
+<script>
+        // Micro-interactions and UI Logic
+        const captionInput = document.getElementById('caption-input');
+        const previewText = document.getElementById('preview-text');
+        const charCount = document.getElementById('char-count');
+
+        captionInput.addEventListener('input', (e) => {
+            const text = e.target.value;
+            previewText.innerText = text || "The future of social management is here. Dive into the data-driven creative engine. 🚀 #AI #SocialPulse";
+            charCount.innerText = `${text.length} / 2200`;
+            
+            if(text.length > 2000) {
+                charCount.classList.add('text-error');
+            } else {
+                charCount.classList.remove('text-error');
+            }
+        });
+
+        // Simple feedback for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.textContent.includes('Post Now')) {
+                    const toast = document.getElementById('status-toast');
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-20', 'opacity-0');
+                    }, 3000);
+                }
+            });
+        });
+
+        // Platform selector toggle mock
+        document.querySelectorAll('.flex-wrap button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('bg-primary-container');
+                this.classList.toggle('text-on-primary-container');
+                this.classList.toggle('border-primary');
+                this.classList.toggle('bg-surface-container-high');
+                this.classList.toggle('text-on-surface-variant');
+                this.classList.toggle('border-surface-variant');
+            });
+        });
+    </script>
+</body></html>

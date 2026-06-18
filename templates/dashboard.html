@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard – Social AI{% endblock %}
+
+{% block page_title %}{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block topbar_actions %}
+<div class="icon-btn">
+    <i class="fa-solid fa-magnifying-glass"></i>
+</div>
+<div class="icon-btn">
+    <i class="fa-regular fa-bell"></i>
+    <span class="notif-pip"></span>
+</div>
+<!-- <img src="{% static 'images/user-avatar.jpg' %}" alt="Avatar" class="topbar-avatar" onerror="this.src='https://ui-avatars.com/api/?name={{ request.user.first_name|default:"Nitin" }}&background=6D28D9&color=fff'"> -->
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header (Inside content) -->
+<div class="dash-header">
+    <h1 class="dash-title">Welcome back, {{ request.user.first_name|default:"Nitin" }} 👋</h1>
+    <p class="dash-subtitle">Here's what's happening with your content today.</p>
+</div>
+
+<!-- ── Stat Cards ──────────────────────────────── -->
+<div class="stats-row">
+
+  <div class="stat-card">
+    <div class="stat-head">
+      <div class="stat-icon purple"><i class="fa-solid fa-layer-group"></i></div>
+      <span class="stat-title">Total Posts</span>
+    </div>
+    <div class="stat-val">{{ total_posts}}</div>
+    <div class="stat-chg up"><i class="fa-solid fa-arrow-up"></i> 18% <span>from last month</span></div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-head">
+      <div class="stat-icon blue"><i class="fa-regular fa-calendar"></i></div>
+      <span class="stat-title">Scheduled Posts</span>
+    </div>
+    <div class="stat-val">{{ scheduled_count}}</div>
+    <div class="stat-chg up"><i class="fa-solid fa-arrow-up"></i> 12% <span>from last month</span></div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-head">
+      <div class="stat-icon green"><i class="fa-regular fa-paper-plane"></i></div>
+      <span class="stat-title">Published Posts</span>
+    </div>
+    <div class="stat-val">{{published_count}}</div>
+    <div class="stat-chg up"><i class="fa-solid fa-arrow-up"></i> 20% <span>from last month</span></div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-head">
+      <div class="stat-icon orange"><i class="fa-solid fa-users"></i></div>
+      <span class="stat-title">Connected Accounts</span>
+    </div>
+    <div class="stat-val">{{ connected_accounts_count}}</div>
+    <div class="stat-chg" style="color:var(--text-muted)"><span>All platforms active</span></div>
+  </div>
+
+</div><!-- /stats-row -->
+
+
+<!-- ── Two-column layout ───────────────────────── -->
+<div class="two-col">
+
+  <!-- LEFT -->
+  <div class="left-col">
+
+    <!-- Connected Accounts -->
+    <div class="card">
+      <div class="card-head">
+        <h3 class="card-title">Connected Accounts</h3>
+        <a href="{% url 'connections' %}" class="card-link">View all</a>
+      </div>
+
+      <div class="conn-acct-grid" id="dash-conn-grid">
+        <!-- Instagram -->
+        <div class="conn-acct-card" data-plat="instagram">
+          <div class="conn-avatar ig"><i class="fa-brands fa-instagram"></i></div>
+          <div class="conn-info">
+            <h4>Instagram</h4>
+            <p class="acct-name">@nitin_ai</p>
+            <span class="conn-status state-conn" style="display:none;">Connected</span>
+            <span class="conn-status state-not-conn" style="color:var(--text-muted); display:none;">Not Connected</span>
+          </div>
+        </div>
+        <!-- Facebook -->
+        <div class="conn-acct-card" data-plat="facebook">
+          <div class="conn-avatar fb"><i class="fa-brands fa-facebook-f"></i></div>
+          <div class="conn-info">
+            <h4>Facebook</h4>
+            <p class="acct-name">Social AI Page</p>
+            <span class="conn-status state-conn" style="display:none;">Connected</span>
+            <span class="conn-status state-not-conn" style="color:var(--text-muted); display:none;">Not Connected</span>
+          </div>
+        </div>
+        <!-- LinkedIn -->
+        <div class="conn-acct-card" data-plat="linkedin">
+          <div class="conn-avatar li"><i class="fa-brands fa-linkedin-in"></i></div>
+          <div class="conn-info">
+            <h4>LinkedIn</h4>
+            <p class="acct-name">Nitin Verma</p>
+            <span class="conn-status state-conn" style="display:none;">Connected</span>
+            <span class="conn-status state-not-conn" style="color:var(--text-muted); display:none;">Not Connected</span>
+          </div>
+        </div>
+        <!-- X (Twitter) -->
+        <div class="conn-acct-card" data-plat="twitter">
+          <div class="conn-avatar x"><i class="fa-brands fa-x-twitter"></i></div>
+          <div class="conn-info">
+            <h4>X (Twitter)</h4>
+            <p class="acct-name">@nitin_ai</p>
+            <span class="conn-status state-conn" style="display:none;">Connected</span>
+            <span class="conn-status state-not-conn" style="color:var(--text-muted); display:none;">Not Connected</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /card -->
+
+    <!-- Hidden data for JS logic -->
+    <div style="display:none;" id="dash-connected-accounts-data">
+        {% for account in connected_accounts %}
+            <span class="acct-data" data-platform="{{ account.platform }}" data-name="{{ account.account_name }}"></span>
+        {% endfor %}
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+      <div class="card-head">
+        <h3 class="card-title">Recent Activity</h3>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item">
+            <div class="activity-icon" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);"><i class="fa-brands fa-instagram"></i></div>
+            <div class="activity-info">
+                <h4>Instagram account connected</h4>
+                <p>2 hours ago</p>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon" style="background:#0A66C2;"><i class="fa-brands fa-linkedin-in"></i></div>
+            <div class="activity-info">
+                <h4>AI post generated for LinkedIn</h4>
+                <p>5 hours ago</p>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon" style="background:#1877F2;"><i class="fa-brands fa-facebook-f"></i></div>
+            <div class="activity-info">
+                <h4>Post published on Facebook</h4>
+                <p>Yesterday, 4:30 PM</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left-col -->
+
+
+  <!-- RIGHT -->
+  <div class="right-col">
+    <div class="card">
+      <div class="card-head">
+        <h3 class="card-title">Upcoming Posts</h3>
+        <a href="{% url 'connections' %}" class="card-link">View calendar</a>
+      </div>
+
+      <div class="upcoming-list">
+        {% if scheduled_posts %}
+        {% for post in scheduled_posts %}
+        <div class="upcoming-item">
+          <div class="upcoming-left">
+            {% if post.platform == 'instagram' %}
+            <div class="upcoming-icon" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);"><i class="fa-brands fa-instagram"></i></div>
+            {% elif post.platform == 'facebook' %}
+            <div class="upcoming-icon" style="background: #1877F2;"><i class="fa-brands fa-facebook-f"></i></div>
+            {% elif post.platform == 'linkedin' %}
+            <div class="upcoming-icon" style="background: #0A66C2;"><i class="fa-brands fa-linkedin-in"></i></div>
+            {% elif post.platform == 'twitter' or post.platform == 'x' %}
+            <div class="upcoming-icon" style="background: #000000;"><i class="fa-brands fa-x-twitter"></i></div>
+            {% else %}
+            <div class="upcoming-icon" style="background: var(--accent-lt);"><i class="fa-regular fa-image"></i></div>
+            {% endif %}
+            
+            <div class="upcoming-info">
+              <h4>{{ post.platform|title|default:"Social" }} Post</h4>
+              <p>{{ post.scheduled_time|date:"F d, Y - h:i A" }}</p>
+            </div>
+          </div>
+          <span class="badge-scheduled">Scheduled</span>
+        </div>
+        {% endfor %}
+        {% else %}
+        <!-- Mock Data -->
+        <div class="upcoming-item">
+          <div class="upcoming-left">
+            <div class="upcoming-icon" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);"><i class="fa-brands fa-instagram"></i></div>
+            <div class="upcoming-info">
+              <h4>Instagram Post</h4>
+              <p>June 18, 2025 - 10:00 AM</p>
+            </div>
+          </div>
+          <span class="badge-scheduled">Scheduled</span>
+        </div>
+        <div class="upcoming-item">
+          <div class="upcoming-left">
+            <div class="upcoming-icon" style="background: #0A66C2;"><i class="fa-brands fa-linkedin-in"></i></div>
+            <div class="upcoming-info">
+              <h4>LinkedIn Post</h4>
+              <p>June 19, 2025 - 09:30 AM</p>
+            </div>
+          </div>
+          <span class="badge-scheduled">Scheduled</span>
+        </div>
+        <div class="upcoming-item">
+          <div class="upcoming-left">
+            <div class="upcoming-icon" style="background: #1877F2;"><i class="fa-brands fa-facebook-f"></i></div>
+            <div class="upcoming-info">
+              <h4>Facebook Post</h4>
+              <p>June 20, 2025 - 02:00 PM</p>
+            </div>
+          </div>
+          <span class="badge-scheduled">Scheduled</span>
+        </div>
+        {% endif %}
+      </div>
+    </div><!-- /card -->
+
+    <!-- AI Tip Card -->
+    <div class="card ai-tip-card">
+      <div class="ai-tip-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Marketing Tip</div>
+      <p class="ai-tip-text">Best time to post on Instagram today is<br><strong>5:00 PM - 7:00 PM</strong></p>
+      <a href="{% url 'create_post' %}" class="ai-tip-btn">Schedule a post</a>
+      <img src="https://cdn3d.iconscout.com/3d/premium/thumb/robot-5003666-4166164.png" alt="AI Robot" class="ai-robot">
+    </div>
+
+  </div><!-- /right-col -->
+
+</div><!-- /two-col -->
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

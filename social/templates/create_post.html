@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Post — Social AI{% endblock %}
+{% block page_title %}Create Post{% endblock %}
+{% block page_subtitle %}Generate and publish content with AI ✨{% endblock %}
+
+{% block topbar_actions %}
+<div style="display:flex; align-items:center;">
+    <button onclick="saveDraft()"
+        style="border: 1px solid var(--border); background:#fff; padding:8px 16px; border-radius:8px; font-weight:600; font-size:13px; margin-right:12px; color:var(--text-main); cursor:pointer;">Save
+        Draft</button>
+    <button onclick="openScheduleModal()"
+        style="background: var(--accent-lt); color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:600; font-size:13px; display:flex; align-items:center; gap:8px; cursor:pointer;">Schedule
+        <i class="fa-solid fa-chevron-down"></i></button>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_post.css' %}?v=3">
+{% endblock %}
+
+{% block content %}
+<form method="POST" id="hiddenForm" action="{% url 'create_post' %}" style="display:none;">
+    {% csrf_token %}
+    <input type="hidden" name="action" id="hAction" value="generate">
+    <input type="hidden" name="platform" id="hPlatform"
+        value="{% if platform and platform != 'None' %}{{ platform }}{% endif %}">
+    <input type="hidden" name="prompt" id="hPrompt" value="{{ prompt }}">
+    <input type="hidden" name="schedule_time" id="hScheduleTime" value="">
+</form>
+
+<div class="cp-wrap">
+
+    <div class="cp-left">
+
+        <div class="cp-step">
+            <div class="cp-step-head">
+                <span class="cp-num">1</span>
+                <h3 class="cp-title">Select Platforms</h3>
+            </div>
+            <div class="platform-boxes">
+                <div class="plat-box" data-plat="instagram" {% if 'instagram' not in connected_platforms %}style="opacity:0.6; background:#F9FAFB;" {% endif %}>
+                    {% if 'instagram' in connected_platforms %}
+                    <i class="fa-solid fa-circle-check"
+                        style="color:#EF4444; position:absolute; top:8px; right:8px; font-size:16px;"></i>
+                    {% endif %}
+                    <i class="fa-brands fa-instagram" style="font-size:24px;"></i>
+                    <span style="font-weight:600; font-size:14px; margin-top:4px;">Instagram</span>
+                    {% if 'instagram' not in connected_platforms %}
+                    <span style="font-size:11px; color:#6B7280; text-align:center; line-height:1.2; margin-top:2px;">Not
+                        connected yet,<br>connect first</span>
+                    {% endif %}
+                </div>
+
+                <div class="plat-box" data-plat="facebook" {% if 'facebook' not in connected_platforms %}style="opacity:0.6; background:#F9FAFB;" {% endif %}>
+                    {% if 'facebook' in connected_platforms %}
+                    <i class="fa-solid fa-circle-check"
+                        style="color:#EF4444; position:absolute; top:8px; right:8px; font-size:16px;"></i>
+                    {% endif %}
+                    <i class="fa-brands fa-facebook-f" style="font-size:24px;"></i>
+                    <span style="font-weight:600; font-size:14px; margin-top:4px;">Facebook</span>
+                    {% if 'facebook' not in connected_platforms %}
+                    <span style="font-size:11px; color:#6B7280; text-align:center; line-height:1.2; margin-top:2px;">Not
+                        connected yet,<br>connect first</span>
+                    {% endif %}
+                </div>
+
+                <div class="plat-box" data-plat="linkedin" {% if 'linkedin' not in connected_platforms %}style="opacity:0.6; background:#F9FAFB;" {% endif %}>
+                    {% if 'linkedin' in connected_platforms %}
+                    <i class="fa-solid fa-circle-check"
+                        style="color:#EF4444; position:absolute; top:8px; right:8px; font-size:16px;"></i>
+                    {% endif %}
+                    <i class="fa-brands fa-linkedin-in" style="font-size:24px;"></i>
+                    <span style="font-weight:600; font-size:14px; margin-top:4px;">LinkedIn</span>
+                    {% if 'linkedin' not in connected_platforms %}
+                    <span style="font-size:11px; color:#6B7280; text-align:center; line-height:1.2; margin-top:2px;">Not
+                        connected yet,<br>connect first</span>
+                    {% endif %}
+                </div>
+
+                <div class="plat-box" data-plat="x" {% if 'x' not in connected_platforms and 'twitter' not in connected_platforms %}style="opacity:0.6; background:#F9FAFB;" {% endif %}>
+                    {% if 'x' in connected_platforms or 'twitter' in connected_platforms %}
+                    <i class="fa-solid fa-circle-check"
+                        style="color:#EF4444; position:absolute; top:8px; right:8px; font-size:16px;"></i>
+                    {% endif %}
+                    <i class="fa-brands fa-x-twitter" style="font-size:24px;"></i>
+                    <span style="font-weight:600; font-size:14px; margin-top:4px;">X (Twitter)</span>
+                    {% if 'x' not in connected_platforms and 'twitter' not in connected_platforms %}
+                    <span style="font-size:11px; color:#6B7280; text-align:center; line-height:1.2; margin-top:2px;">Not
+                        connected yet,<br>connect first</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="cp-step">
+            <div class="cp-step-head">
+                <span class="cp-num">2</span>
+                <h3 class="cp-title">Post Topic / Idea</h3>
+            </div>
+            <input type="text" id="visiblePrompt" class="cp-input"
+                value="{{ prompt|default:'Announce our new AI content generation tool' }}"
+                placeholder="What is this post about?">
+        </div>
+
+        <div class="cp-step">
+            <div class="cp-step-head">
+                <span class="cp-num">3</span>
+                <h3 class="cp-title">Choose Tone</h3>
+            </div>
+            <select class="cp-select">
+                <option>Professional</option>
+                <option>Friendly</option>
+                <option>Witty</option>
+                <option>Urgent</option>
+            </select>
+        </div>
+
+        <button class="btn-generate" onclick="generatePost()">Generate with AI ✨</button>
+
+    </div>
+
+    <div class="cp-right">
+
+        <div id="mock-default" class="preview-card" style="opacity: 0.6; {% if platform %}display:none;{% endif %}">
+            <div class="pc-head">
+                <h3 class="pc-title" style="color:var(--text-muted);">Generated Content</h3>
+            </div>
+            <div class="pc-content"
+                style="color:var(--text-muted); font-size:15px; text-align:center; padding: 40px 20px;">
+                <div style="font-size:32px; margin-bottom:16px;">🤖</div>
+                Select a platform and topic on the left, then click <strong>Generate with AI</strong> to create your
+                post!
+            </div>
+        </div>
+
+        <div id="mock-instagram" class="mockup-wrapper mock-ig"
+            style="{% if platform != 'instagram' %}display:none;{% endif %}">
+            <div class="mockup-header">
+                <img src="{% if request.user.socialaccount_set.first.avatar_url %}{{ request.user.socialaccount_set.first.avatar_url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                    class="mock-avatar">
+                <div class="mock-meta">
+                    <div class="mock-name">{{ request.user.get_full_name|default:request.user.username|default:"Your
+                        Name" }}</div>
+                </div>
+                <i class="fa-solid fa-ellipsis"></i>
+            </div>
+            <div class="mock-img"></div>
+            <div class="mock-actions">
+                <i class="fa-regular fa-heart"></i>
+                <i class="fa-regular fa-comment"></i>
+                <i class="fa-regular fa-paper-plane"></i>
+                <i class="fa-regular fa-bookmark" style="margin-left:auto;"></i>
+            </div>
+            <div class="mock-content">
+                <strong>{{ request.user.get_full_name|default:request.user.username|default:"Your Name" }}</strong>
+                {% if generated_post %}{{ generated_post|linebreaksbr }}{% else %}<span style="color:var(--text-muted);">Your awesome Instagram caption will appear here...</span>{% endif %}
+            </div>
+        </div>
+
+        <div id="mock-facebook" class="mockup-wrapper mock-fb"
+            style="{% if platform != 'facebook' %}display:none;{% endif %}">
+            <div class="mockup-header">
+                <img src="{% if request.user.socialaccount_set.first.avatar_url %}{{ request.user.socialaccount_set.first.avatar_url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                    class="mock-avatar">
+                <div class="mock-meta">
+                    <div class="mock-name">{{ request.user.get_full_name|default:request.user.username|default:"Your
+                        Name" }}</div>
+                    <div class="mock-sub">Just now <i class="fa-solid fa-earth-americas" style="font-size:10px;"></i>
+                    </div>
+                </div>
+                <i class="fa-solid fa-ellipsis"></i>
+            </div>
+            <div class="mock-content">
+                {% if generated_post %}{{ generated_post|linebreaksbr }}{% else %}<span
+                    style="color:var(--text-muted);">Your Facebook post text will appear here...</span>{% endif %}
+            </div>
+            <div class="mock-img"></div>
+            <div class="mock-actions">
+                <div><i class="fa-regular fa-thumbs-up"></i> Like</div>
+                <div><i class="fa-regular fa-comment"></i> Comment</div>
+                <div><i class="fa-solid fa-share"></i> Share</div>
+            </div>
+        </div>
+
+        <div id="mock-linkedin" class="mockup-wrapper mock-in"
+            style="{% if platform != 'linkedin' %}display:none;{% endif %}">
+            <div class="mockup-header">
+                <img src="{% if request.user.socialaccount_set.first.avatar_url %}{{ request.user.socialaccount_set.first.avatar_url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                    class="mock-avatar">
+                <div class="mock-meta">
+                    <div class="mock-name">{{ request.user.get_full_name|default:request.user.username|default:"Your
+                        Name" }}</div>
+                    <div class="mock-sub">Professional</div>
+                </div>
+                <i class="fa-solid fa-ellipsis"></i>
+            </div>
+            <div class="mock-content">
+                {% if generated_post %}{{ generated_post|linebreaksbr }}{% else %}<span style="color:var(--text-muted);">Your professional LinkedIn post will appear here...</span>{% endif %}
+            </div>
+            <div class="mock-img"></div>
+            <div class="mock-actions">
+                <div><i class="fa-regular fa-thumbs-up"></i> Like</div>
+                <div><i class="fa-regular fa-comment"></i> Comment</div>
+                <div><i class="fa-solid fa-retweet"></i> Repost</div>
+                <div><i class="fa-regular fa-paper-plane"></i> Send</div>
+            </div>
+        </div>
+
+        <div id="mock-twitter" class="mockup-wrapper mock-x"
+            style="{% if platform != 'twitter' and platform != 'x' %}display:none;{% else %}display:flex;{% endif %}">
+            <div class="mock-x-left">
+                <img src="{% if request.user.socialaccount_set.first.avatar_url %}{{ request.user.socialaccount_set.first.avatar_url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                    class="mock-x-avatar">
+            </div>
+            <div class="mock-x-right">
+                <div class="mock-x-head">
+                    <span class="mock-x-name">{{ request.user.get_full_name|default:request.user.username|default:"Your
+                        Name" }}</span>
+                    <span class="mock-x-handle">@{{ request.user.username|default:"handle" }}</span>
+                    <span class="mock-x-handle" style="margin-left:4px;">· 1m</span>
+                </div>
+                <div class="mock-x-content">
+                    {% if generated_post %}{{ generated_post|linebreaksbr }}{% else %}<span
+                        style="color:var(--text-muted);">Your engaging tweet will appear here...</span>{% endif %}
+                </div>
+                <div class="mock-x-img"></div>
+                <div class="mock-x-actions">
+                    <div><i class="fa-regular fa-comment"></i></div>
+                    <div><i class="fa-solid fa-retweet"></i></div>
+                    <div><i class="fa-regular fa-heart"></i></div>
+                    <div><i class="fa-solid fa-chart-simple"></i></div>
+                    <div><i class="fa-solid fa-arrow-up-from-bracket"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mock-footer" class="pc-footer"
+            style="margin-top: 16px; {% if not platform and not generated_post %}display:none;{% endif %}">
+            <button class="btn-preview"
+                onclick="document.getElementById('hAction').value='regenerate'; document.getElementById('hiddenForm').submit();">
+                <i class="fa-solid fa-rotate-right"></i> Regenerate
+            </button>
+            <button
+                style="background: #10B981; color:#fff; border:none; padding:10px 20px; border-radius:8px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; cursor:pointer; transition:0.2s; box-shadow:0 4px 6px rgba(16, 185, 129, 0.2);"
+                onclick="publishPost()">
+                Publish Now <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script id="conn-plats-data" type="application/json">
+    [
+    {% for plat in connected_platforms %}
+        "{{ plat }}"{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    ]
+</script>
+
+<div id="connect-modal" class="modal-overlay"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
+    <div
+        style="background:#fff; padding:32px; border-radius:16px; max-width:400px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+        <div style="font-size:48px; margin-bottom:16px;">🔌</div>
+        <h3 style="font-size:20px; font-weight:700; margin-bottom:8px; color:#111827;" id="cm-title">Connect Platform
+        </h3>
+        <p style="font-size:14px; color:#6B7280; margin-bottom:24px;">You need to connect this platform to your account
+            before you can generate or publish posts for it.</p>
+        <div style="display:flex; gap:12px; justify-content:center;">
+            <button onclick="document.getElementById('connect-modal').style.display='none'"
+                style="padding:10px 20px; border:1px solid #D1D5DB; background:#fff; border-radius:8px; cursor:pointer; font-weight:600;">Cancel</button>
+            <a href="{% url 'connections' %}"
+                style="background:#6D28D9; color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:600;">Go
+                to Connections</a>
+        </div>
+    </div>
+</div>
+
+<div id="schedule-modal" class="modal-overlay"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
+    <div
+        style="background:#fff; padding:32px; border-radius:16px; width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+        <h3 style="font-size:20px; font-weight:700; margin-bottom:16px; color:#111827;">Schedule Post</h3>
+        <p style="font-size:14px; color:#6B7280; margin-bottom:20px;">Choose when you want this post to be published.
+        </p>
+        <div style="margin-bottom:20px; display:flex; gap:12px;">
+            <div style="flex:1;">
+                <label
+                    style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:8px;">Date</label>
+                <input type="date" id="scheduleDate"
+                    style="width:100%; padding:12px; border:1px solid #D1D5DB; border-radius:8px; font-family:inherit; font-size:14px;">
+            </div>
+            <div style="flex:1;">
+                <label
+                    style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:8px;">Time</label>
+                <input type="time" id="scheduleTime"
+                    style="width:100%; padding:12px; border:1px solid #D1D5DB; border-radius:8px; font-family:inherit; font-size:14px;">
+            </div>
+        </div>
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+            <button onclick="closeScheduleModal()"
+                style="padding:10px 20px; border:1px solid #D1D5DB; background:#fff; border-radius:8px; cursor:pointer; font-weight:600;">Cancel</button>
+            <button onclick="confirmSchedule()"
+                style="background:#6D28D9; color:#fff; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer;">Schedule
+                Post</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/create_post.js' %}?v=8"></script>
+{% endblock %}

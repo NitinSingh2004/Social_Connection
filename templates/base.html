@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Social AI{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    {% include "sidebar.html" %}
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="main-wrap">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="19" y2="6" />
+                    <line x1="3" y1="11" x2="19" y2="11" />
+                    <line x1="3" y1="16" x2="19" y2="16" />
+                </svg>
+            </button>
+            <div class="topbar-text">
+                <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+                <p>{% block page_subtitle %}{% endblock %}</p>
+            </div>
+            <div class="topbar-right">
+                {% block topbar_actions %}{% endblock %}
+            </div>
+        </header>
+
+        <main class="page-content">
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

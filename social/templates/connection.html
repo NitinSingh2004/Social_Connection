@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Connections — Social AI{% endblock %}
+
+{% block page_title %}{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block topbar_actions %}
+<div class="icon-btn">
+    <i class="fa-regular fa-bell"></i>
+    <span class="notif-pip"></span>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/connections.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header-row">
+    <div class="dash-header-title">
+        <h1 class="dash-title">Connections</h1>
+        <p class="dash-subtitle">Manage and connect your social media accounts</p>
+    </div>
+    <a href="#" class="btn-new-conn"><i class="fa-solid fa-plus"></i> Connect New Account</a>
+</div>
+
+<!-- Summary Stats -->
+<div class="summary-card">
+    <div class="sum-item">
+        <div class="sum-icon purple"><i class="fa-solid fa-user-group"></i></div>
+        <div class="sum-info">
+            <h4>Connected Accounts</h4>
+            <div class="val"><span id="sum-conn-ratio">0 / 4</span></div>
+            <div class="sub">Keep growing your brand!</div>
+        </div>
+    </div>
+    <div class="sum-item">
+        <div class="sum-icon green"><i class="fa-regular fa-circle-check"></i></div>
+        <div class="sum-info">
+            <h4>Connected</h4>
+            <div class="val" id="sum-conn-count">0</div>
+        </div>
+    </div>
+    <div class="sum-item">
+        <div class="sum-icon orange"><i class="fa-solid fa-plug-circle-xmark"></i></div>
+        <div class="sum-info">
+            <h4>Not Connected</h4>
+            <div class="val" id="sum-unconn-count">4</div>
+        </div>
+    </div>
+    <div class="sum-item">
+        <div class="sum-icon blue"><i class="fa-solid fa-share-nodes"></i></div>
+        <div class="sum-info">
+            <h4>Total Platforms</h4>
+            <div class="val">4</div>
+        </div>
+    </div>
+</div>
+
+<div class="conn-page-grid">
+    <!-- Instagram -->
+    <div class="c-card" data-plat="instagram">
+        <div class="c-card-head">
+            <div class="c-head-left">
+                <div class="c-icon ig"><i class="fa-brands fa-instagram"></i></div>
+                <div class="c-head-info">
+                    <h3>Instagram</h3>
+                    <p class="acct-handle state-connected">@nitin_ai</p>
+                </div>
+            </div>
+            <span class="c-badge connected state-connected">Connected</span>
+            <span class="c-badge disconnected state-disconnected">Not Connected</span>
+        </div>
+        
+        <div class="c-desc state-connected">Share beautiful photos, stories and reels with your audience on Instagram.</div>
+        <div class="c-desc state-disconnected">Share beautiful photos, stories and reels with your audience on Instagram.</div>
+
+        <div class="c-stats state-connected-flex">
+            <div class="c-stat-col"><i class="fa-regular fa-image c-stat-icon"></i><p>145</p><h5>Posts</h5></div>
+            <div class="c-stat-col"><i class="fa-solid fa-user-group c-stat-icon"></i><p>12.4K</p><h5>Followers</h5></div>
+            <div class="c-stat-col"><i class="fa-regular fa-heart c-stat-icon"></i><p>280</p><h5>Following</h5></div>
+        </div>
+
+        <div class="unconn-ill state-disconnected-flex">
+            <div class="unconn-circle"><i class="fa-brands fa-instagram"></i></div>
+        </div>
+
+        <div class="c-actions state-connected-flex">
+            <button class="c-btn-disconnect"><i class="fa-regular fa-trash-can"></i> Disconnect</button>
+        </div>
+        <div class="c-actions state-disconnected-flex">
+            <a href="{% url 'instagram_webhook' %}" class="c-btn-connect"><i class="fa-solid fa-plus"></i> Connect Instagram</a>
+        </div>
+    </div>
+
+    <!-- Facebook -->
+    <div class="c-card" data-plat="facebook">
+        <div class="c-card-head">
+            <div class="c-head-left">
+                <div class="c-icon fb"><i class="fa-brands fa-facebook-f"></i></div>
+                <div class="c-head-info">
+                    <h3>Facebook</h3>
+                    <p class="acct-handle state-connected">Social AI Page</p>
+                </div>
+            </div>
+            <span class="c-badge connected state-connected">Connected</span>
+            <span class="c-badge disconnected state-disconnected">Not Connected</span>
+        </div>
+        
+        <div class="c-desc state-connected">Publish updates, engage with your audience and grow your Facebook page.</div>
+        <div class="c-desc state-disconnected">Publish updates, engage with your audience and grow your Facebook page.</div>
+
+        <div class="c-stats state-connected-flex">
+            <div class="c-stat-col"><i class="fa-regular fa-thumbs-up c-stat-icon"></i><p>8.7K</p><h5>Page Likes</h5></div>
+            <div class="c-stat-col"><i class="fa-solid fa-user-group c-stat-icon"></i><p>9.1K</p><h5>Followers</h5></div>
+            <div class="c-stat-col"><i class="fa-regular fa-comment c-stat-icon"></i><p>98</p><h5>Posts</h5></div>
+        </div>
+
+        <div class="unconn-ill state-disconnected-flex">
+            <div class="unconn-circle" style="background:#EFF6FF; color:#3B82F6;"><i class="fa-brands fa-facebook-f"></i></div>
+        </div>
+
+        <div class="c-actions state-connected-flex">
+            <button class="c-btn-disconnect"><i class="fa-regular fa-trash-can"></i> Disconnect</button>
+        </div>
+        <div class="c-actions state-disconnected-flex">
+            <a href="{% url 'facebook_webhook' %}" class="c-btn-connect"><i class="fa-solid fa-plus"></i> Connect Facebook</a>
+        </div>
+    </div>
+
+    <!-- LinkedIn -->
+    <div class="c-card" data-plat="linkedin">
+        <div class="c-card-head">
+            <div class="c-head-left">
+                <div class="c-icon li"><i class="fa-brands fa-linkedin-in"></i></div>
+                <div class="c-head-info">
+                    <h3>LinkedIn</h3>
+                    <p class="acct-handle state-connected">Nitin Verma</p>
+                </div>
+            </div>
+            <span class="c-badge connected state-connected">Connected</span>
+            <span class="c-badge disconnected state-disconnected">Not Connected</span>
+        </div>
+        
+        <div class="c-desc state-connected">Share professional updates and grow your network by connecting LinkedIn.</div>
+        <div class="c-desc state-disconnected">Share professional updates and grow your network by connecting LinkedIn.</div>
+
+        <div class="c-stats state-connected-flex">
+            <div class="c-stat-col"><i class="fa-solid fa-briefcase c-stat-icon"></i><p>320</p><h5>Posts</h5></div>
+            <div class="c-stat-col"><i class="fa-solid fa-link c-stat-icon"></i><p>1.2K</p><h5>Connections</h5></div>
+            <div class="c-stat-col"><i class="fa-solid fa-user-group c-stat-icon"></i><p>1.5K</p><h5>Followers</h5></div>
+        </div>
+
+        <div class="unconn-ill state-disconnected-flex">
+            <div class="unconn-circle"><i class="fa-solid fa-briefcase"></i></div>
+        </div>
+
+        <div class="c-actions state-connected-flex">
+            <button class="c-btn-disconnect"><i class="fa-regular fa-trash-can"></i> Disconnect</button>
+        </div>
+        <div class="c-actions state-disconnected-flex">
+            <a href="{% url 'linkedin_webhook' %}" class="c-btn-connect"><i class="fa-solid fa-plus"></i> Connect LinkedIn</a>
+        </div>
+    </div>
+
+    <!-- X (Twitter) -->
+    <div class="c-card" data-plat="twitter">
+        <div class="c-card-head">
+            <div class="c-head-left">
+                <div class="c-icon x"><i class="fa-brands fa-x-twitter"></i></div>
+                <div class="c-head-info">
+                    <h3>X (Twitter)</h3>
+                    <p class="acct-handle state-connected">@nitin_ai</p>
+                </div>
+            </div>
+            <span class="c-badge connected state-connected">Connected</span>
+            <span class="c-badge disconnected state-disconnected">Not Connected</span>
+        </div>
+        
+        <div class="c-desc state-connected">Reach more people and engage with your audience on X (Twitter).</div>
+        <div class="c-desc state-disconnected">Reach more people and engage with your audience on X (Twitter).</div>
+
+        <div class="c-stats state-connected-flex">
+            <div class="c-stat-col"><i class="fa-regular fa-comment-dots c-stat-icon"></i><p>2.1K</p><h5>Tweets</h5></div>
+            <div class="c-stat-col"><i class="fa-solid fa-user-group c-stat-icon"></i><p>10.4K</p><h5>Followers</h5></div>
+            <div class="c-stat-col"><i class="fa-regular fa-heart c-stat-icon"></i><p>800</p><h5>Following</h5></div>
+        </div>
+
+        <div class="unconn-ill state-disconnected-flex">
+            <div class="unconn-circle" style="background:#E0F2FE; color:#0EA5E9;"><i class="fa-solid fa-feather-pointed"></i></div>
+        </div>
+
+        <div class="c-actions state-connected-flex">
+            <button class="c-btn-disconnect"><i class="fa-regular fa-trash-can"></i> Disconnect</button>
+        </div>
+        <div class="c-actions state-disconnected-flex">
+            <button class="c-btn-connect"><i class="fa-solid fa-plus"></i> Connect X (Twitter)</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Hidden section for actual connection data -->
+<div style="display:none;" id="connected-accounts-data">
+    {% for account in connected_accounts %}
+        <span class="acct-data" data-platform="{{ account.platform }}" data-name="{{ account.account_name }}"></span>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/connections.js' %}"></script>
+{% endblock %}

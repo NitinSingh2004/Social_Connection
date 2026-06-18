@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connections | SocialPulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Hanken+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#ffdad6",
+                    "outline-variant": "#494454",
+                    "inverse-primary": "#6d3bd7",
+                    "inverse-on-surface": "#283044",
+                    "surface-container-low": "#131b2e",
+                    "background": "#0b1326",
+                    "tertiary-fixed": "#d8e2ff",
+                    "on-tertiary-container": "#00285d",
+                    "on-primary": "#3c0091",
+                    "surface-bright": "#31394d",
+                    "secondary": "#4edea3",
+                    "tertiary": "#adc6ff",
+                    "on-background": "#dae2fd",
+                    "on-primary-fixed": "#23005c",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-secondary-fixed": "#002113",
+                    "primary-fixed-dim": "#d0bcff",
+                    "on-tertiary": "#002e6a",
+                    "on-error": "#690005",
+                    "surface": "#0b1326",
+                    "secondary-container": "#00a572",
+                    "primary-fixed": "#e9ddff",
+                    "surface-variant": "#2d3449",
+                    "secondary-fixed-dim": "#4edea3",
+                    "surface-container-lowest": "#060e20",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#adc6ff",
+                    "primary": "#d0bcff",
+                    "on-surface-variant": "#cbc3d7",
+                    "on-primary-fixed-variant": "#5516be",
+                    "outline": "#958ea0",
+                    "on-secondary": "#003824",
+                    "on-primary-container": "#340080",
+                    "surface-container-highest": "#2d3449",
+                    "on-tertiary-fixed-variant": "#004395",
+                    "on-tertiary-fixed": "#001a42",
+                    "tertiary-container": "#4d8eff",
+                    "surface-container": "#171f33",
+                    "surface-tint": "#d0bcff",
+                    "primary-container": "#a078ff",
+                    "on-surface": "#dae2fd",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-secondary-container": "#00311f",
+                    "surface-container-high": "#222a3d",
+                    "surface-dim": "#0b1326",
+                    "inverse-surface": "#dae2fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "32px",
+                    "xs": "8px",
+                    "gutter": "20px",
+                    "base": "4px",
+                    "sm": "16px",
+                    "margin-mobile": "16px",
+                    "md": "24px",
+                    "xl": "48px",
+                    "lg": "32px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #30363D;
+        }
+        .platform-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .platform-card:hover {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1326;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3449;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #958ea0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest border-r border-surface-variant flex flex-col py-md z-50">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SocialPulse</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Management Engine</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary bg-primary-container/10 border-l-4 border-primary transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-body-md">Connections</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-body-md">Create Post</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-body-md">Scheduler</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-surface-variant/30">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Top AppBar Shell -->
+<header class="fixed top-0 right-0 left-[260px] h-16 bg-surface/80 backdrop-blur-md border-b border-surface-variant flex justify-between items-center px-lg z-40">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-surface-variant border rounded-lg py-2 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search connections..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="relative p-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<div class="flex items-center gap-3 ml-2 border-l border-surface-variant pl-md">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface leading-none">Alex Rivera</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Admin</p>
+</div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-primary-container" data-alt="A professional headshot of a modern social media manager with a creative edge. The person has a friendly expression and is set against a softly blurred, sophisticated studio background with cool blue and purple ambient lighting reflecting the corporate modern dark-mode aesthetic of the SocialPulse dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ6oRHjK1NFtdihLGey-UhCjVKfQCBtFbOLVt5mjKvQmKTPWYE0zcLmLLmJSeUX53mSe8tpBAaJ9djjxeUupaXpcp4w6RNJ1o_3qkU08N6cz_TS9g8UfMRQXkqFcTXsA5zHVbLlFH4QtIqtiMAhfzuM0s9r5nFEVu1nA8EkmMxUreHnLN3iPa4Ii7yC3rUpQjc9K8uWSnuln3oVeSkO6dFaqFhw81vPbS6Qlzp_o78FFr23cvKCYGFwEAdUcXypS2MPVudi2evDug"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[260px] pt-16 min-h-screen">
+<div class="p-lg max-w-7xl mx-auto space-y-lg">
+<!-- Page Header -->
+<div class="flex justify-between items-end pb-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Connections</h2>
+<p class="text-on-surface-variant">Manage your ecosystem of social media integrations.</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-2 px-md py-2 glass-panel rounded-lg text-primary hover:bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined text-md">sync</span>
+<span class="font-label-md">Sync All</span>
+</button>
+</div>
+</div>
+<!-- Platform Connection Grid -->
+<section>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">Link New Platform</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-gutter">
+<!-- Facebook -->
+<div class="glass-panel p-md flex flex-col items-center gap-sm platform-card cursor-pointer">
+<div class="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-500">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">face_nod</span>
+</div>
+<span class="font-label-md text-on-surface">Facebook</span>
+<button class="w-full py-1.5 bg-primary text-on-primary rounded-md font-label-md hover:bg-primary-container transition-colors">Connect</button>
+</div>
+<!-- Instagram -->
+<div class="glass-panel p-md flex flex-col items-center gap-sm platform-card cursor-pointer">
+<div class="w-12 h-12 rounded-xl bg-pink-600/10 flex items-center justify-center text-pink-500">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">camera_alt</span>
+</div>
+<span class="font-label-md text-on-surface">Instagram</span>
+<button class="w-full py-1.5 bg-primary text-on-primary rounded-md font-label-md hover:bg-primary-container transition-colors">Connect</button>
+</div>
+<!-- X (Twitter) -->
+<div class="glass-panel p-md flex flex-col items-center gap-sm platform-card cursor-pointer">
+<div class="w-12 h-12 rounded-xl bg-slate-200/10 flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-4xl">close</span>
+</div>
+<span class="font-label-md text-on-surface">X Platform</span>
+<button class="w-full py-1.5 bg-primary text-on-primary rounded-md font-label-md hover:bg-primary-container transition-colors">Connect</button>
+</div>
+<!-- LinkedIn -->
+<div class="glass-panel p-md flex flex-col items-center gap-sm platform-card cursor-pointer">
+<div class="w-12 h-12 rounded-xl bg-blue-700/10 flex items-center justify-center text-blue-400">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">work</span>
+</div>
+<span class="font-label-md text-on-surface">LinkedIn</span>
+<button class="w-full py-1.5 bg-primary text-on-primary rounded-md font-label-md hover:bg-primary-container transition-colors">Connect</button>
+</div>
+<!-- TikTok -->
+<div class="glass-panel p-md flex flex-col items-center gap-sm platform-card cursor-pointer">
+<div class="w-12 h-12 rounded-xl bg-teal-400/10 flex items-center justify-center text-teal-400">
+<span class="material-symbols-outlined text-4xl">music_note</span>
+</div>
+<span class="font-label-md text-on-surface">TikTok</span>
+<button class="w-full py-1.5 bg-primary text-on-primary rounded-md font-label-md hover:bg-primary-container transition-colors">Connect</button>
+</div>
+<!-- YouTube -->
+<div class="glass-panel p-md flex flex-col items-center gap-sm platform-card cursor-pointer">
+<div class="w-12 h-12 rounded-xl bg-red-600/10 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">play_circle</span>
+</div>
+<span class="font-label-md text-on-surface">YouTube</span>
+<button class="w-full py-1.5 bg-primary text-on-primary rounded-md font-label-md hover:bg-primary-container transition-colors">Connect</button>
+</div>
+</div>
+</section>
+<!-- Connected Accounts Table -->
+<section class="mt-xl">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Connected Accounts</h3>
+<div class="flex gap-xs items-center px-sm py-1 bg-secondary-container/10 rounded-full">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+<span class="text-secondary text-label-sm">4 Active Connections</span>
+</div>
+</div>
+<div class="glass-panel overflow-hidden rounded-xl">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/50">
+<th class="px-lg py-4 font-label-md text-on-surface-variant">Platform</th>
+<th class="px-lg py-4 font-label-md text-on-surface-variant">Account Name</th>
+<th class="px-lg py-4 font-label-md text-on-surface-variant">Status</th>
+<th class="px-lg py-4 font-label-md text-on-surface-variant">Last Synced</th>
+<th class="px-lg py-4 font-label-md text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant/30">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-pink-600/20 flex items-center justify-center text-pink-500">
+<span class="material-symbols-outlined text-xl" data-weight="fill">camera_alt</span>
+</div>
+<span class="font-body-md font-medium text-on-surface">Instagram Business</span>
+</div>
+</td>
+<td class="px-lg py-4 font-body-md text-on-surface-variant">@socialpulse_ai</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-medium bg-secondary/10 text-secondary border border-secondary/20">
+                                        Healthy
+                                    </span>
+</td>
+<td class="px-lg py-4 font-label-md text-on-surface-variant">14 mins ago</td>
+<td class="px-lg py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 hover:bg-surface-variant rounded-lg text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-on-surface-variant hover:text-error transition-all">
+<span class="material-symbols-outlined">link_off</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center text-blue-500">
+<span class="material-symbols-outlined text-xl" data-weight="fill">face_nod</span>
+</div>
+<span class="font-body-md font-medium text-on-surface">Facebook Page</span>
+</div>
+</td>
+<td class="px-lg py-4 font-body-md text-on-surface-variant">SocialPulse Official</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-medium bg-secondary/10 text-secondary border border-secondary/20">
+                                        Healthy
+                                    </span>
+</td>
+<td class="px-lg py-4 font-label-md text-on-surface-variant">2 hours ago</td>
+<td class="px-lg py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 hover:bg-surface-variant rounded-lg text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-on-surface-variant hover:text-error transition-all">
+<span class="material-symbols-outlined">link_off</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-slate-200/10 flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-xl">close</span>
+</div>
+<span class="font-body-md font-medium text-on-surface">X Profile</span>
+</div>
+</td>
+<td class="px-lg py-4 font-body-md text-on-surface-variant">@PulseInsights</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-medium bg-error/10 text-error border border-error/20">
+                                        Token Expired
+                                    </span>
+</td>
+<td class="px-lg py-4 font-label-md text-on-surface-variant">3 days ago</td>
+<td class="px-lg py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded-lg font-label-md hover:bg-primary/30 transition-all">
+                                            Reconnect
+                                        </button>
+<button class="p-2 hover:bg-surface-variant rounded-lg text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high/30 transition-colors border-none">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-blue-700/20 flex items-center justify-center text-blue-400">
+<span class="material-symbols-outlined text-xl" data-weight="fill">work</span>
+</div>
+<span class="font-body-md font-medium text-on-surface">LinkedIn Company</span>
+</div>
+</td>
+<td class="px-lg py-4 font-body-md text-on-surface-variant">SocialPulse AI Solutions</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-medium bg-secondary/10 text-secondary border border-secondary/20">
+                                        Healthy
+                                    </span>
+</td>
+<td class="px-lg py-4 font-label-md text-on-surface-variant">5 mins ago</td>
+<td class="px-lg py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 hover:bg-surface-variant rounded-lg text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-on-surface-variant hover:text-error transition-all">
+<span class="material-symbols-outlined">link_off</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Bottom Banner / CTA -->
+<section class="relative overflow-hidden rounded-2xl p-xl border border-surface-variant bg-surface-container-low mt-xl">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-lg">
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Power up with Enterprise API</h4>
+<p class="text-on-surface-variant max-w-xl">Need more than 10 connections? Upgrade to Enterprise for unlimited platform integrations, advanced webhooks, and team access control.</p>
+</div>
+<button class="px-xl py-3 bg-primary text-on-primary rounded-xl font-headline-md font-bold hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98]">
+                        Upgrade Plan
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('.platform-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                icon.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                icon.style.transform = 'scale(1.15) rotate(5deg)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

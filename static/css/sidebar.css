@@ -1,0 +1,63 @@
+/* =========================================
+   Social AI — sidebar.css (Light SaaS Theme)
+   ========================================= */
+
+:root {
+  --sb-bg: #0A0F1C;
+  --sb-text: #9CA3AF;
+  --sb-text-hover: #F3F4F6;
+  --sb-active-bg: #6D28D9;
+  --sb-active-text: #FFFFFF;
+}
+
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--sb-bg);
+  display: flex; flex-direction: column;
+  z-index: 200; font-family: 'Inter', sans-serif;
+}
+
+.sidebar-brand {
+  padding: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.brand-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: linear-gradient(135deg, #A78BFA, #6D28D9);
+  display: grid; place-items: center; color: #fff;
+  font-size: 16px;
+}
+.brand-name { font-size: 20px; font-weight: 700; color: #fff; }
+
+.sidebar-nav {
+  flex: 1; padding: 16px 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+.nav-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 12px;
+  font-size: 14px; font-weight: 500; color: var(--sb-text);
+  text-decoration: none; transition: 0.2s;
+}
+.nav-link:hover { color: var(--sb-text-hover); background: rgba(255,255,255,0.05); }
+
+.nav-link.active {
+  background: var(--sb-active-bg);
+  color: var(--sb-active-text);
+}
+.nav-icon { width: 20px; font-size: 18px; text-align: center; }
+
+.sidebar-user {
+  padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+}
+.su-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  object-fit: cover;
+}
+.su-info { flex: 1; min-width: 0; }
+.su-name { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.su-email { font-size: 12px; color: var(--sb-text); }
+.su-chevron { color: var(--sb-text); font-size: 12px; }

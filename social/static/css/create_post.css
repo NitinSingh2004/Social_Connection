@@ -1,0 +1,585 @@
+/* =============================================
+   create_post.css — Social AI Post Creator
+   ============================================= */
+
+/* --- Layout --- */
+.cp-wrap {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 28px;
+    max-width: 1160px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+@media (max-width: 860px) {
+    .cp-wrap {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Left Column --- */
+.cp-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Steps --- */
+.cp-step {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.cp-step-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.cp-num {
+    width: 26px;
+    height: 26px;
+    background: #6D28D9;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cp-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+/* --- Platform Grid --- */
+.platform-boxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.plat-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 10px;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    background: #fff;
+    min-height: 78px;
+    color: #374151;
+    user-select: none;
+}
+
+.plat-box:hover:not([style*="opacity:0.6"]) {
+    border-color: #6D28D9;
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.08);
+}
+
+.plat-box.selected {
+    border-color: #6D28D9;
+    background: #F5F3FF;
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+}
+
+.plat-box[style*="opacity:0.6"] {
+    cursor: not-allowed;
+}
+
+/* --- Input / Select --- */
+.cp-input,
+.cp-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 9px;
+    font-size: 14px;
+    color: #111827;
+    background: #F9FAFB;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.cp-input:focus,
+.cp-select:focus {
+    border-color: #6D28D9;
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.08);
+    background: #fff;
+}
+
+.cp-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+/* --- Generate Button --- */
+.btn-generate {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 100%);
+    color: #fff;
+    border: none;
+    border-radius: 11px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    letter-spacing: 0.01em;
+}
+
+.btn-generate:hover {
+    opacity: 0.92;
+}
+
+.btn-generate:active {
+    transform: scale(0.99);
+}
+
+.btn-generate:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- Loading State --- */
+.btn-generate.loading {
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+/* --- Right Column --- */
+.cp-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: sticky;
+    top: 24px;
+}
+
+/* --- Preview Card (default empty) --- */
+.preview-card {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.pc-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.pc-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    color: #111827;
+}
+
+.pc-content {
+    padding: 20px;
+}
+
+/* --- Footer Actions --- */
+.pc-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0 0;
+}
+
+.btn-preview {
+    background: #fff;
+    border: 1.5px solid #D1D5DB;
+    color: #374151;
+    padding: 10px 18px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.btn-preview:hover {
+    border-color: #6D28D9;
+    color: #6D28D9;
+    background: #F5F3FF;
+}
+
+/* =============================================
+   Platform Mockups — shared base
+   ============================================= */
+.mockup-wrapper {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.mockup-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.mock-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #E5E7EB;
+}
+
+.mock-meta {
+    flex: 1;
+}
+
+.mock-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.mock-sub {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-top: 1px;
+}
+
+.mockup-header > i.fa-solid.fa-ellipsis {
+    color: #9CA3AF;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.mock-img {
+    width: 100%;
+    background: #F3F4F6;
+    aspect-ratio: 4/3;
+    max-height: 220px;
+}
+
+.mock-content {
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #111827;
+    word-break: break-word;
+}
+
+.mock-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 16px 14px;
+    font-size: 20px;
+    color: #374151;
+}
+
+.mock-actions > div,
+.mock-actions > i {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #374151;
+    transition: color 0.12s;
+}
+
+.mock-actions > div:hover,
+.mock-actions > i:hover {
+    color: #6D28D9;
+}
+
+/* =============================================
+   Instagram Mockup
+   ============================================= */
+.mock-ig .mockup-header {
+    border-bottom: none;
+}
+
+.mock-ig .mock-avatar {
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) border-box;
+}
+
+.mock-ig .mock-actions {
+    padding: 10px 14px 8px;
+    gap: 14px;
+    font-size: 22px;
+}
+
+.mock-ig .mock-actions > i {
+    font-size: 22px;
+}
+
+/* =============================================
+   Facebook Mockup
+   ============================================= */
+.mock-fb .mock-actions {
+    border-top: 1px solid #F3F4F6;
+    justify-content: space-around;
+    padding: 10px 16px;
+}
+
+.mock-fb .mock-content {
+    padding-bottom: 2px;
+}
+
+/* =============================================
+   LinkedIn Mockup
+   ============================================= */
+.mock-in .mock-sub {
+    color: #6B7280;
+}
+
+.mock-in .mock-actions {
+    border-top: 1px solid #F3F4F6;
+    justify-content: space-around;
+    padding: 10px 16px;
+}
+
+/* =============================================
+   X / Twitter Mockup
+   ============================================= */
+.mock-x {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    padding: 16px;
+    background: #fff;
+}
+
+.mock-x-left {
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.mock-x-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #E5E7EB;
+}
+
+.mock-x-right {
+    flex: 1;
+    min-width: 0;
+}
+
+.mock-x-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.mock-x-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.mock-x-handle {
+    font-size: 14px;
+    color: #6B7280;
+}
+
+.mock-x-content {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #111827;
+    word-break: break-word;
+    margin-bottom: 10px;
+}
+
+.mock-x-img {
+    width: 100%;
+    background: #F3F4F6;
+    border-radius: 14px;
+    height: 160px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.mock-x-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #6B7280;
+    font-size: 18px;
+    margin-top: 8px;
+}
+
+.mock-x-actions > div {
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 50px;
+    transition: background 0.12s, color 0.12s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+}
+
+.mock-x-actions > div:hover {
+    background: rgba(109, 40, 217, 0.07);
+    color: #6D28D9;
+}
+
+/* =============================================
+   Spinner / Loading Overlay
+   ============================================= */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.cp-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* =============================================
+   Modal
+   ============================================= */
+#connect-modal .modal-overlay {
+    display: none;
+}
+
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+}
+
+/* =============================================
+   Editable post content
+   ============================================= */
+.mock-content[contenteditable="true"] {
+    outline: none;
+    border: 1.5px dashed #D1D5DB;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 60px;
+    cursor: text;
+    transition: border-color 0.15s;
+}
+
+.mock-content[contenteditable="true"]:focus {
+    border-color: #6D28D9;
+    background: #FAFAFA;
+}
+
+/* =============================================
+   Status chip
+   ============================================= */
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.status-chip.reviewing {
+    background: #EDE9FE;
+    color: #5B21B6;
+}
+
+.status-chip.completed {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+/* =============================================
+   Char counter for X
+   ============================================= */
+.char-counter {
+    font-size: 12px;
+    color: #9CA3AF;
+    text-align: right;
+    margin-top: 4px;
+    padding: 0 16px 10px;
+}
+
+.char-counter.warn {
+    color: #D97706;
+}
+
+.char-counter.over {
+    color: #EF4444;
+    font-weight: 700;
+}
+
+/* =============================================
+   Tone selector pills (optional enhancement)
+   ============================================= */
+.tone-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.tone-pill {
+    padding: 5px 14px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.13s, background 0.13s, color 0.13s;
+    color: #374151;
+    background: #fff;
+    user-select: none;
+}
+
+.tone-pill:hover {
+    border-color: #6D28D9;
+    color: #6D28D9;
+}
+
+.tone-pill.active {
+    border-color: #6D28D9;
+    background: #6D28D9;
+    color: #fff;
+}

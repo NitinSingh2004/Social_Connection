@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/scheduler.css' %}">
+
+<div class="dashboard-container">
+
+    <div class="glass-card">
+        <div class="flex-header">
+            <div>
+                <h3>Social Accounts</h3>
+                <p class="subtext">Manage your connected platforms</p>
+            </div>
+            <button class="btn-manage">Manage</button>
+        </div>
+
+        <div class="account-list">
+            <!-- Facebook -->
+            <a href="?platform=facebook" class="account-item {% if selected_platform == 'facebook' %}active{% endif %}" style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 16px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px;">
+                <div class="account-profile" style="display: flex; gap: 12px; align-items: center;">
+                    <div class="icon-avatar bg-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin:0; font-size:15px; color:var(--text-primary);">Facebook</h4>
+                        {% if 'facebook' in connected_dict %}
+                        <p class="profile-name" style="margin:4px 0 0; font-size:13px; color:var(--text-secondary);">{{ connected_dict.facebook.account_name|default:connected_dict.facebook.user.username }}</p>
+                        {% else %}
+                        <p class="profile-status" style="margin:4px 0 0; font-size:13px; color:var(--text-muted);">Not connected</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if 'facebook' in connected_dict %}
+                <span class="badge-active">active</span>
+                {% else %}
+                <span style="font-size:13px; padding:6px 14px; border:1px solid var(--border); border-radius:20px; color:var(--text-secondary);">Connect</span>
+                {% endif %}
+            </a>
+
+            <!-- Instagram -->
+            <a href="?platform=instagram" class="account-item {% if selected_platform == 'instagram' %}active{% endif %}" style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 16px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px;">
+                <div class="account-profile" style="display: flex; gap: 12px; align-items: center;">
+                    <div class="icon-avatar bg-instagram">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin:0; font-size:15px; color:var(--text-primary);">Instagram</h4>
+                        {% if 'instagram' in connected_dict %}
+                        <p class="profile-name" style="margin:4px 0 0; font-size:13px; color:var(--text-secondary);">{{ connected_dict.instagram.account_name|default:connected_dict.instagram.user.username }}</p>
+                        {% else %}
+                        <p class="profile-status" style="margin:4px 0 0; font-size:13px; color:var(--text-muted);">Not connected</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if 'instagram' in connected_dict %}
+                <span class="badge-active">active</span>
+                {% else %}
+                <span style="font-size:13px; padding:6px 14px; border:1px solid var(--border); border-radius:20px; color:var(--text-secondary);">Connect</span>
+                {% endif %}
+            </a>
+
+            <!-- X (Twitter) -->
+            <a href="?platform=twitter" class="account-item {% if selected_platform == 'twitter' or selected_platform == 'x' %}active{% endif %}" style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 16px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px;">
+                <div class="account-profile" style="display: flex; gap: 12px; align-items: center;">
+                    <div class="icon-avatar bg-twitter">
+                        <i class="fab fa-x-twitter"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin:0; font-size:15px; color:var(--text-primary);">X (Twitter)</h4>
+                        {% if 'twitter' in connected_dict or 'x' in connected_dict %}
+                        <p class="profile-name" style="margin:4px 0 0; font-size:13px; color:var(--text-secondary);">Connected</p>
+                        {% else %}
+                        <p class="profile-status" style="margin:4px 0 0; font-size:13px; color:var(--text-muted);">Not connected</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if 'twitter' in connected_dict or 'x' in connected_dict %}
+                <span class="badge-active">active</span>
+                {% else %}
+                <span style="font-size:13px; padding:6px 14px; border:1px solid var(--border); border-radius:20px; color:var(--text-secondary);">Connect</span>
+                {% endif %}
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="?platform=linkedin" class="account-item {% if selected_platform == 'linkedin' %}active{% endif %}" style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 16px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px;">
+                <div class="account-profile" style="display: flex; gap: 12px; align-items: center;">
+                    <div class="icon-avatar bg-linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin:0; font-size:15px; color:var(--text-primary);">LinkedIn</h4>
+                        {% if 'linkedin' in connected_dict %}
+                        <p class="profile-name" style="margin:4px 0 0; font-size:13px; color:var(--text-secondary);">{{ connected_dict.linkedin.account_name|default:connected_dict.linkedin.user.username }}</p>
+                        {% else %}
+                        <p class="profile-status" style="margin:4px 0 0; font-size:13px; color:var(--text-muted);">Not connected</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if 'linkedin' in connected_dict %}
+                <span class="badge-active">active</span>
+                {% else %}
+                <span style="font-size:13px; padding:6px 14px; border:1px solid var(--border); border-radius:20px; color:var(--text-secondary);">Connect</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <div class="flex-header alignment-start">
+            <div>
+                <h2 id="scheduler-title">All Scheduled Posts for {{ account_name }} ({{ selected_platform|title|default:"All Platforms" }})</h2>
+                <p class="subtext">Choose a connected account to see its posts</p>
+            </div>
+            <a href="{% url 'calendar' %}" class="btn-calendar-view" style="text-decoration: none;">View Calendar</a>
+        </div>
+
+        <div class="filter-bar">
+            <input type="text" placeholder="Search Posts" class="search-input">
+
+            <select class="select-filter">
+                <option>Sort By (Date/Status)</option>
+            </select>
+
+            <select class="select-filter">
+                <option>Filter by Type (Image, Video, ...)</option>
+            </select>
+
+            <select class="select-filter">
+                <option>Status Filter (Scheduled, Drafts)</option>
+            </select>
+
+            <div class="toggle-view-container">
+                <button class="view-toggle-btn active"><i class="fas fa-list"></i> List View</button>
+                <button class="view-toggle-btn"><i class="fas fa-calendar-alt"></i> Calendar View</button>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <i class="far fa-calendar icon-purple"></i> Upcoming
+        </div>
+
+        <div class="table-header-grid">
+            <div>Content</div>
+            <div></div>
+            <div>Date & Time</div>
+            <div class="text-right">Status</div>
+        </div>
+
+        <div id="posts-container" class="posts-feed">
+            {% for post in posts %}
+            <div class="post-row">
+                <div class="post-media-preview">
+                    <!-- Placeholder image since we just have text for now -->
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=80&auto=format&fit=crop" alt="Preview">
+                    {% if post.platform == 'instagram' %}
+                    <div class="platform-overlay-badge bg-instagram"><i class="fab fa-instagram"></i></div>
+                    {% elif post.platform == 'linkedin' %}
+                    <div class="platform-overlay-badge bg-linkedin"><i class="fab fa-linkedin-in"></i></div>
+                    {% elif post.platform == 'twitter' or post.platform == 'x' %}
+                    <div class="platform-overlay-badge bg-twitter"><i class="fab fa-x-twitter"></i></div>
+                    {% else %}
+                    <div class="platform-overlay-badge bg-facebook"><i class="fab fa-facebook-f"></i></div>
+                    {% endif %}
+                </div>
+                <div>
+                    <h5 class="post-title">{{ post.content.content|truncatechars:40|default:"No Content" }}</h5>
+                    <p class="post-tags">Scheduled</p>
+                </div>
+                <div class="post-datetime">
+                    <div>{{ post.scheduled_time|date:"d M Y" }}</div>
+                    <div class="time-muted">{{ post.scheduled_time|date:"h:i A" }}</div>
+                </div>
+                <div class="post-actions">
+                    <span class="badge-scheduled">{{ post.status|title }}</span>
+                    <button class="btn-more"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+            </div>
+            {% empty %}
+            <div style="text-align: center; padding: 40px; color: var(--text-muted); grid-column: 1 / -1;">
+                <p>No scheduled posts found for this platform.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/scheduler.js' %}"></script>
+{% endblock %}

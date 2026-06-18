@@ -1,0 +1,73 @@
+{% load static %}
+<aside class="sidebar" id="sidebar">
+
+    <!-- Brand -->
+    <div class="sidebar-brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+        <span class="brand-name">Social AI</span>
+    </div>
+
+    <!-- Nav -->
+    <nav class="sidebar-nav">
+
+        <a href="{% url 'dashboard' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+            Dashboard
+        </a>
+
+        <a href="{% url 'create_post' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'create_post' %}active{% endif %}">
+            <span class="nav-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+            Create Post
+        </a>
+
+        <a href="{% url 'scheduler' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'scheduler' %}active{% endif %}">
+            <span class="nav-icon"><i class="fa-regular fa-calendar"></i></span>
+            Scheduler
+        </a>
+
+        <a href="{% url 'connections' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'connections' %}active{% endif %}">
+            <span class="nav-icon"><i class="fa-solid fa-user-group"></i></span>
+            Connections
+        </a>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span>
+            Analytics
+        </a>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon"><i class="fa-solid fa-microchip"></i></span>
+            AI Tools
+        </a>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+            Settings
+        </a>
+
+    </nav>
+
+    <div style="margin-top:auto; padding: 20px 24px;">
+        <a href="#" class="nav-link" style="padding:0; background:transparent;">
+            <span class="nav-icon"><i class="fa-regular fa-circle-question"></i></span>
+            Help & Support
+        </a>
+    </div>
+
+    <!-- User -->
+    <div class="sidebar-user">
+        <img src="{% static 'images/user-avatar.jpg' %}" alt="Avatar" class="su-avatar" >
+        <div class="su-info">
+            <p class="su-name">{{ request.user.get_full_name|default:"Nitin Verma" }}</p>
+            <p class="su-email">{{ request.user.email|default:"nitin@example.com" }}</p>
+        </div>
+        <i class="fa-solid fa-chevron-down su-chevron"></i>
+    </div>
+
+</aside>
