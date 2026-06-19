@@ -1,3 +1,6 @@
+from django.shortcuts import redirect
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404
 from django.shortcuts import get_object_or_404, redirect
 from .graph import graph  # Make sure 'graph' is imported from your graph.py file
 from django.shortcuts import render, redirect
@@ -14,8 +17,11 @@ from django.contrib import messages
 from django.utils import timezone
 from accounts.models import User
 from django.contrib.auth import login
+from django.views.decorators.csrf import csrf_exempt
 from scheduler.models import Post, ScheduledPost
 from datetime import datetime
+
+
 def connections(request):
     print("running")
     if request.user.is_authenticated:
@@ -37,25 +43,10 @@ def connections(request):
     )
 
 
-def linkedin_webhook(request):
-    return render(request, "connection.html")
 
-def instagram_webhook(request):
-    return render(request, "connection.html")
-def publish_to_facebook_api(content, social_account):
-    url = f"https://graph.facebook.com/{social_account.page_id}/feed"
-    payload = {
-        "message": content,
-        "access_token": social_account.page_access_token
-    }
-    response = requests.post(url, data=payload)
-    return response.json()
 
-# ==========================================
-# CONFIGURATION
-# ==========================================
-APP_ID = "1008992491621351"
-APP_SECRET = "586e6a2115efe5ad7d8ccc540117f48b"
+APP_ID = os.getenv("APP_ID")
+APP_SECRET = os.getenv("APP_SECRET")
 
 REDIRECT_URI = (
     "https://nonpreformed-stimulatingly-vania.ngrok-free.dev/"
@@ -73,7 +64,7 @@ def facebook_webhook(request):
         "client_id": APP_ID,
         "redirect_uri": REDIRECT_URI,
         "response_type": "code",
-        "scope": "public_profile,email,pages_show_list,pages_read_engagement,pages_manage_posts",
+        "scope": "public_profile,email,pages_show_list,pages_read_engagement,pages_manage_posts,read_insights",
           }
 
     auth_url = (
@@ -83,11 +74,8 @@ def facebook_webhook(request):
 
     return redirect(auth_url)
 
-# ==========================================
-# FACEBOOK WEBHOOK (SEPARATE ENDPOINT)
-# ==========================================
 
-
+### facebook Endpoint ###
 def facebook_callback(request):
     """
     Facebook OAuth callback
@@ -98,8 +86,6 @@ def facebook_callback(request):
     if not code:
         messages.error(request, "Facebook login cancelled.")
         return redirect("dashboard")
-
-    # Exchange code for access token
     token_response = requests.get(
         "https://graph.facebook.com/v20.0/oauth/access_token",
         params={
@@ -112,15 +98,15 @@ def facebook_callback(request):
     )
 
     token_data = token_response.json()
+    print("Token Response:", token_data)
 
     if "access_token" not in token_data:
         return JsonResponse(token_data, status=400)
 
     access_token = token_data["access_token"]
 
-    # Get Facebook profile info
     user_response = requests.get(
-        "https://graph.facebook.com/me",
+        "https://graph.facebook.com/v20.0/me",
         params={
             "access_token": access_token,
             "fields": "id,name",
@@ -129,40 +115,73 @@ def facebook_callback(request):
     )
 
     user_data = user_response.json()
+    print("User Response:", user_data)
 
     facebook_id = user_data.get("id")
     facebook_name = user_data.get("name")
-    print(facebook_id)
-    print(facebook_name)
 
     if not facebook_id:
         messages.error(request, "Unable to retrieve Facebook account.")
         return redirect("dashboard")
-    # Fetch User Pages
     page_id = ""
     page_name = ""
     page_access_token = ""
-    
+
+    page_stats = {
+        "total_likes": 0,
+        "total_followers": 0,
+    }
+    permissions = requests.get(
+        "https://graph.facebook.com/v20.0/me/permissions",
+        params={
+            "access_token": access_token
+        }
+    )
+    print(permissions.json())
     pages_response = requests.get(
         "https://graph.facebook.com/v20.0/me/accounts",
-        params={"access_token": access_token},
+        params={
+            "access_token": access_token
+        },
         timeout=30
     )
+
+    print("Pages Status:", pages_response.status_code)
+
     pages_data = pages_response.json()
-    
-    if "data" in pages_data and len(pages_data["data"]) > 0:
+
+    print("Pages Response:", pages_data)
+
+    if "error" in pages_data:
+        print("Facebook Error:", pages_data["error"])
+
+    elif pages_data.get("data"):
+
         first_page = pages_data["data"][0]
+
+        print("First Page:", first_page)
+
         page_id = first_page.get("id", "")
         page_name = first_page.get("name", "")
         page_access_token = first_page.get("access_token", "")
 
-    # Get or fallback user
+        print("Page ID:", page_id)
+        print("Page Name:", page_name)
+        print("Page Token:", page_access_token[:25] + "...")
+        page_stats = get_page_stats(
+            page_id,
+            page_access_token
+        )
+
+        print("Page Stats:", page_stats)
+
+    else:
+        print("No Facebook Pages found for this account.")
+
     if request.user.is_authenticated:
         user = request.user
     else:
-        user = User.objects.get(username="pankaj")
-
-    # Save/Update database
+        return render(request, "login.html")
     SocialAccount.objects.update_or_create(
         user=user,
         platform="facebook",
@@ -172,7 +191,9 @@ def facebook_callback(request):
             "access_token": access_token,
             "page_id": page_id,
             "page_name": page_name,
-            "page_access_token": page_access_token
+            "page_access_token": page_access_token,
+            "facebook_likes": page_stats.get("total_likes", 0),
+            "facebook_followers": page_stats.get("total_followers", 0),
         }
     )
 
@@ -180,27 +201,23 @@ def facebook_callback(request):
         request,
         f"Facebook account '{facebook_name}' connected successfully."
     )
+
     if not request.user.is_authenticated:
         login(request, user)
 
     return redirect("connections")
 
 
+
 #### for Facebook post ####
 
-
 def publish_facebook(request):
-    # Get post
     post = get_object_or_404(Post)
-
-    # Get connected Facebook account
     social = get_object_or_404(
         SocialAccount,
         user=request.user,
         platform="facebook"
     )
-
-    # Facebook Graph API
     url = f"https://graph.facebook.com/{social.page_id}/feed"
 
     payload = {
@@ -215,10 +232,6 @@ def publish_facebook(request):
     if "id" in result:
         messages.success(request, "Post published successfully!")
 
-        # Optional: mark the post as published
-        # post.status = "published"
-        # post.save()
-
     else:
         error_message = result.get("error", {}).get(
             "message", "Publishing failed."
@@ -228,15 +241,37 @@ def publish_facebook(request):
     return redirect("dashboard")
 
 
+### also for facebook ###
+def get_page_stats(page_id, page_access_token):
+    url = f"https://graph.facebook.com/v20.0/{page_id}"
 
+    params = {
+        "fields": "id,name,fan_count,followers_count",
+        "access_token": page_access_token,
+    }
 
+    try:
+        response = requests.get(url, params=params, timeout=30)
+        response.raise_for_status()
 
+        data = response.json()
 
+        if "error" in data:
+            return {
+                "total_likes": 0,
+                "total_followers": 0,
+            }
 
+        return {
+            "total_likes": data.get("fan_count", 0),
+            "total_followers": data.get("followers_count", 0),
+        }
 
-
-
-
+    except requests.exceptions.RequestException:
+        return {
+            "total_likes": 0,
+            "total_followers": 0,
+        }
 
 
 
@@ -421,3 +456,195 @@ def create_post(request):
             context["status"] = "reviewing"  # Allows users to read, edit, or regenerate it
 
     return render(request, "create_post.html", context)
+
+
+
+
+### for instagram ###
+
+
+CLIENT_ID2=os.getenv("CLIENT_ID2")
+CLIENT_SECRET2 = os.getenv("CLIENT_SECRET2")
+
+REDIRECT_URI2 = "https://nonpreformed-stimulatingly-vania.ngrok-free.dev/social/instagram_callback/"
+
+SCOPES = [
+    "instagram_business_basic",
+    "instagram_business_content_publish"
+]
+
+
+def instagram_login(request):
+    """
+    Step 1: Redirect the user to the Instagram Login window.
+    """
+    scope_param = ",".join(SCOPES)
+    authorization_url = (
+        f"https://api.instagram.com/oauth/authorize"
+        f"?client_id={CLIENT_ID2}"
+        f"&redirect_uri={REDIRECT_URI2}"
+        f"&scope={scope_param}"
+        f"&response_type=code"
+    )
+    return redirect(authorization_url)
+
+
+# The exact string you type into the "Verify Token" field in your Meta Dashboard
+MY_VERIFY_TOKEN = "your_chosen_secure_verify_token_here"
+
+CLIENT_ID = "1552124069826752"
+CLIENT_SECRET = "524fda10056f2df33af7ce5a5a1b5bf4"
+
+
+def instagram_callback(request):
+    """
+    Step 2 & 3: Handle the authentication callback from Instagram.
+    Also handles Meta's webhook validation challenge.
+    """
+    if request.method == "GET" and "hub.mode" in request.GET:
+        mode = request.GET.get("hub.mode")
+        token = request.GET.get("hub.verify_token")
+        challenge = request.GET.get("hub.challenge")
+
+        if mode == "subscribe" and token == MY_VERIFY_TOKEN:
+            return HttpResponse(challenge, content_type="text/plain")
+        else:
+            return HttpResponse("Verification token mismatch", status=403)
+
+    error = request.GET.get('error')
+    code = request.GET.get('code')
+
+    if error:
+        return HttpResponseBadRequest(f"User denied authorization: {error}")
+
+    if not code:
+        return HttpResponseBadRequest("Authorization code missing from callback.")
+
+    # STEP A: Exchange Authorization Code for a Short-Lived User Token (Valid ~1 hour)
+    short_token_url = "https://api.instagram.com/oauth/access_token"
+    payload = {
+        "client_id": CLIENT_ID2,
+        "client_secret": CLIENT_SECRET2,
+        "grant_type": "authorization_code",
+        "redirect_uri": REDIRECT_URI2,
+        "code": code
+    }
+
+    response = requests.post(short_token_url, data=payload)
+    if response.status_code != 200:
+        return JsonResponse(response.json(), status=response.status_code)
+
+    token_data = response.json()
+    short_lived_token = token_data.get("access_token")
+    instagram_user_id = token_data.get("user_id")
+
+    # STEP B: Exchange Short-Lived Token for a Long-Lived Token (Valid 60 Days)
+    long_token_url = "https://graph.instagram.com/access_token"
+    params = {
+        "grant_type": "ig_exchange_token",
+        "client_secret": CLIENT_SECRET2,
+        "access_token": short_lived_token
+    }
+
+    long_response = requests.get(long_token_url, params=params)
+    if long_response.status_code != 200:
+        return JsonResponse(long_response.json(), status=long_response.status_code)
+
+    long_token_data = long_response.json()
+    long_lived_token = long_token_data.get("access_token")
+    return JsonResponse({
+        "status": "Success",
+        "message": "Account connected successfully!",
+        "instagram_user_id": instagram_user_id,
+        "long_lived_token_preview": f"{long_lived_token[:10]}..."
+    })
+
+
+
+#### For Linkdin ####
+
+CLIENT_ID3 = os.getenv("CLIENT_ID3")
+CLIENT_SECRET3 = os.getenv("CLIENT_SECRET3")
+
+
+REDIRECT_URI3 = "https://nonpreformed-stimulatingly-vania.ngrok-free.dev/social/linkedin_callback/"
+
+SCOPES = [
+    "openid",
+    "profile",
+    "email",
+    "w_member_social"
+]
+
+
+def linkedin_login(request):
+
+    auth_url = (
+        "https://www.linkedin.com/oauth/v2/authorization"
+        f"?response_type=code"
+        f"&client_id={CLIENT_ID3}"
+        f"&redirect_uri={REDIRECT_URI3}"
+        f"&scope={' '.join(SCOPES)}"
+    )
+
+    return redirect(auth_url)
+
+
+def linkedin_callback(request):
+
+    code = request.GET.get("code")
+
+    if not code:
+        return JsonResponse({"error": "Authorization code missing."})
+
+    token_url = "https://www.linkedin.com/oauth/v2/accessToken"
+
+    payload = {
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": REDIRECT_URI3,
+        "client_id": CLIENT_ID3,
+        "client_secret": CLIENT_SECRET3,
+    }
+
+    token_response = requests.post(token_url, data=payload)
+
+    if token_response.status_code != 200:
+        return JsonResponse(token_response.json(), status=token_response.status_code)
+
+    token_data = token_response.json()
+
+    access_token = token_data["access_token"]
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+
+    profile_response = requests.get(
+        "https://api.linkedin.com/v2/userinfo",
+        headers=headers
+    )
+
+    if profile_response.status_code != 200:
+        return JsonResponse(profile_response.json(), status=profile_response.status_code)
+
+    profile = profile_response.json()
+
+    linkedin_id = profile.get("sub")
+    linkedin_name = profile.get("name")
+
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        return render(request, "login.html")
+
+    SocialAccount.objects.update_or_create(
+        user=user,
+        platform="linkedin",
+        defaults={
+            "account_name": linkedin_name,
+            "account_id": linkedin_id,
+            "access_token": access_token,
+        }
+    )
+
+    return render(request,"connection.html")

@@ -4,6 +4,7 @@ class SocialAccount(models.Model):
     PLATFORMS = (
         ("instagram", "Instagram"),
         ("facebook", "Facebook"),
+        ("linkedin", "LinkedIn"),
     )
 
     user = models.ForeignKey(
@@ -45,6 +46,11 @@ class SocialAccount(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    facebook_likes = models.IntegerField(default=0)
+
+
+    facebook_followers = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username} - {self.get_platform_display()} ({self.account_name or self.account_id})"

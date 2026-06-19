@@ -154,7 +154,7 @@
                 <i class="fa-regular fa-bookmark" style="margin-left:auto;"></i>
             </div>
             <div class="mock-content">
-                <strong>{{ request.user.get_full_name|default:request.user.username|default:"Your Name" }}</strong>
+                <strong>{{ request.user.get_full_name}}</strong>
                 {% if generated_post %}{{ generated_post|linebreaksbr }}{% else %}<span style="color:var(--text-muted);">Your awesome Instagram caption will appear here...</span>{% endif %}
             </div>
         </div>

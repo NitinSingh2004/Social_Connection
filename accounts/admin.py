@@ -2,7 +2,7 @@
 from django.contrib import admin
 from .models import User
 
-
+### we register admin 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (

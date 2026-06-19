@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 from social.models import SocialAccount
 from scheduler.models import ScheduledPost, Post
-from social.models import SocialAccount
+
+
 
 User = get_user_model()
 
@@ -24,6 +25,8 @@ def check_username(request):
     return JsonResponse({"exists": exists})
 
 
+
+###  Sign up page that redirect to dashboard after signup  ###
 def signup_view(request):
     """Handles new user registration."""
     if request.user.is_authenticated:
@@ -60,7 +63,6 @@ def signup_view(request):
             context["error"] = "A user with this email already exists."
             return render(request, "signup.html", context)
 
-        # Create user safely via the custom UserManager
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -68,27 +70,23 @@ def signup_view(request):
             first_name=first_name,
             last_name=last_name
         )
-
-        # Log the user in directly
         login(request, user)
         messages.success(request, "Account created successfully!")
-        return redirect("dashboard")  # Redirect straight to dashboard
+        return redirect("dashboard")  
 
     return render(request, "signup.html")
 
 
+
+### for login view user login then go to dashbaord ###
 def login_view(request):
     """Handles user login authentication using Email."""
     print("running")
     if request.user.is_authenticated:
         return redirect("dashboard")
-    print("working")
     if request.method == "POST":
-        # Using email because USERNAME_FIELD = "email" in your model
         email = request.POST.get("username", "").strip()
         password = request.POST.get("password")
-        print(email)
-        # Pass the email string into the 'username' parameter of authenticate
         user = authenticate(request, username=email, password=password)
         print(user)
         if user is not None:
@@ -103,17 +101,11 @@ def login_view(request):
                 "email": email,
                 "error": "Invalid email or password."
             }
-            # Re-render login, NOT dashboard
             return render(request, "login.html", context) 
 
     return render(request, "login.html")
 
 
-def logout_view(request):
-    """Handles user logout."""
-    logout(request)
-    messages.info(request, "You have logged out.")
-    return redirect("login")
 
 
 ALL_PLATFORMS = [
@@ -127,22 +119,17 @@ ALL_PLATFORMS = [
 ]
 
 
-def dashboard_view(request):
-    # Connected social accounts
-    connected_accounts = SocialAccount.objects.filter(user=request.user)
 
-    # Connected platform keys
+###  dashboard view logic  ###
+def dashboard_view(request):
+    connected_accounts = SocialAccount.objects.filter(user=request.user)
     connected_keys = set(
         connected_accounts.values_list("platform", flat=True)
     )
-
-    # Platforms not yet connected
     unconnected_platforms = [
         p for p in ALL_PLATFORMS
         if p["key"] not in connected_keys
     ]
-
-    # Dashboard statistics
     total_posts = Post.objects.filter(
         user=request.user
     ).count()
@@ -158,8 +145,6 @@ def dashboard_view(request):
     ).count()
 
     connected_accounts_count = connected_accounts.count()
-
-    # Upcoming scheduled posts
     scheduled_posts = (
         ScheduledPost.objects.filter(
             user=request.user,
@@ -185,5 +170,4 @@ def dashboard_view(request):
 
 
 def password_reset(request):
-    # Place holder layout or logic
     return render(request, "login.html")

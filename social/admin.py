@@ -12,6 +12,8 @@ class SocialAccountAdmin(admin.ModelAdmin):
         "account_id",
         "access_token",
         "page_access_token",
+        "facebook_likes",
+        "facebook_followers",
         "created_at",
     )
 
